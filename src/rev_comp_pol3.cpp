@@ -19,24 +19,5 @@ std::string rev_comp_pol3::run(std::string ori)
 char rev_comp_pol3::char2char(char base)
 {
     return (((-0.0456259*base + 10.178733)*base) - 753.80732)*base + 18606.353;
-    //return 18606.353 - 753.80732*base + 10.178733*base*base - 0.0456259*base*base*base;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
