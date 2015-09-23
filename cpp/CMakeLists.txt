@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(bench_rev_comp)
+project(bench_rev_comp_cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O2")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 
 include_directories(inc)
 
@@ -13,7 +14,7 @@ file(
   )
 
 add_executable(
-  bench_rev_comp
+  bench
   ${src_files}
   )
 
