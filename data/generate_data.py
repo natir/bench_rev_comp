@@ -6,6 +6,8 @@
 
 # std import
 import argparse
+import random
+from numpy import arange
 
 
 # Control argument
@@ -44,26 +46,45 @@ def main():
                         help="minimal GC %", default=0.0)
     parser.add_argument("-G", "--max-gc", type=in_interval_0_1,
                         help="maximal GC %", default=1.0)
-    parser.add_argument("-s", "--step-gc", type=unsigned_int,
-                        help="step of gc growing", default=10)
+    parser.add_argument("-s", "--step-gc", type=in_interval_0_1,
+                        help="step of gc growing", default=0.1)
 
-    args = parser.parse_args()
+    args = vars(parser.parse_args())
 
-    
-def generate_random(gc):
-    gc_or_ta = random.random()
-    pu_or_py = radom.random()
+    with open(args["output"], "w") as outfile:
+        outfile.write("length,gc,seq\n")
+        for len_seq in range_geo(args["min_seq_len"],
+                                 args["max_seq_len"]*args["step_seq"],
+                                 args["step_seq"]):
+            for gc in arange(args["min_gc"], args["max_gc"]+args["step_gc"],
+                             args["step_gc"]):
+                outfile.write(str(len_seq) + "," + str(gc) + "," +
+                              ''.join(generate_random(gc, len_seq)) + "\n")
 
-    if gc_or_ta < gc:
-        if pu_or_py < 0.5:
-            return 'G'
+
+def range_geo(start, stop=1, step=2):
+    start, stop = (stop, start) if stop < start else (start, stop)
+
+    while start < stop:
+        yield start
+        start *= step
+
+
+def generate_random(gc, n):
+    for i in range(n):
+        gc_or_ta = random.random()
+        pu_or_py = random.random()
+
+        if gc_or_ta < gc:
+            if pu_or_py < 0.5:
+                yield 'G'
+            else:
+                yield 'C'
         else:
-            return 'C'
-    else:
-        if pu_or_py < 0.5:
-            return 'A'
-        else:
-            return 'T'
+            if pu_or_py < 0.5:
+                yield 'A'
+            else:
+                yield 'T'
 
 
 if __name__ == '__main__':
