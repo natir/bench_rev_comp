@@ -3,12 +3,14 @@
 # -*- coding: utf-8 -*-
 
 # import
+import sys
 import argparse
 import os
 import subprocess
 import csv
 import numpy
 from collections import defaultdict
+import pandas
 
 
 # Control argument
@@ -29,7 +31,7 @@ def isdir(val):
 
 
 # Main function
-def main():
+def main(args):
 
     parser = argparse.ArgumentParser(prog="run",
                                      description="Run bench_rev_comp")
@@ -41,13 +43,13 @@ def main():
                         help="Number of repeat run for calculate mean",
                         default=10)
     parser.add_argument("-l", "--list-lang", nargs='+', type=isdir,
-                        default=["all"], help="List of language you want bench",
+                        required=True, help="List of language you want bench",
                         action='store')
     parser.add_argument("-N", "--nb-of-nuc", type=unsigned_int,
                         help="Each call run on this nucleotide number",
                         default=1000000)
 
-    args = vars(parser.parse_args())
+    args = vars(parser.parse_args(args))
 
     if not os.path.isfile(args["input"]):
         print("We can't find "+args["input"]+" use data/generate_data.py")
@@ -68,7 +70,7 @@ def read_run_store(lang, nb_call, output, seq_file, nb_of_nuc):
                 all_data[k] = tmp_dict[k]
 
         store(all_data, output, lang, nb_call)
-
+        generate_graph(output)
         
 def run(bin_path, seq, gc, nb_call, nb_repeat):
     ret = defaultdict(list)
@@ -97,10 +99,34 @@ def store(result, output, lang, nb_call):
                                [str(i) for i in result[len_gc_algo]]) + "\n")
 
             mean = numpy.mean(result[len_gc_algo])
-            std = numpy.std(result[len_gc_algo]))
-            clean.write(",".join([lang, length, gc, algo, str(mean), str(std))
+            std = numpy.std(result[len_gc_algo])
+            clean.write(",".join([lang, length, gc, algo, str(mean), str(std)])
                                  + "\n")
 
-        
+def generate_graph(output):
+    pandas.set_option('display.mpl_style', 'default')
+    data = pandas.read_csv(output+"_resume.csv")
+
+    for lang in set(data['language']):
+        for length in set(data['len']):
+            df = pandas.DataFrame(index=list(set(data['gc'])))
+            errors = list()
+
+            for algo in set(data['algo']):
+                is_lang = data['language'] == lang
+                is_len = data['len'] == length
+                is_algo = data['algo'] == algo
+                mean = pandas.Series(list(data[is_lang & is_len & is_algo]
+                                          ['mean']), index=list(set(data['gc']
+                                          )))
+                errors.append(list(pandas.Series(data[is_lang & is_len &
+                                                      is_algo]['stderror'])))
+                df[algo] = mean
+
+            graph = df.plot(kind='bar', yerr=errors)
+            fig = graph.get_figure()
+            fig.savefig(str(output)+"_"+str(lang)+"_"+str(length)+".png")
+
+
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
