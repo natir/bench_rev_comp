@@ -21,7 +21,7 @@ def unsigned_int(val):
 
 def in_interval_0_1(val):
     val = float(val)
-    print(val)
+
     if val > 1 or val < 0:
         raise argparse.ArgumentTypeError("We required val in [0, 1]")
 
