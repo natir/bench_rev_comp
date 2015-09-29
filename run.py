@@ -123,8 +123,14 @@ def generate_graph(output):
                                                       is_algo]['stderror'])))
                 df[algo] = mean
 
+            print(df)
+            df.sort_index(inplace=True)
+            print(df)
             graph = df.plot(kind='bar', yerr=errors)
+
             fig = graph.get_figure()
+            dpi = fig.get_dpi()
+            fig.set_size_inches(1536.0/float(dpi),576/float(dpi))
             fig.savefig(str(output)+"_"+str(lang)+"_"+str(length)+".png")
 
 
