@@ -22,9 +22,9 @@ naive,tab,hash,pol3
 200,3000,200,1
 ```
 
-## Algorithme and implementation
+## Algorithm and implementation
 
-In each language directory we found a algorithme.md file, he associate a short name to a description of algorithme and implementation specificity.
+In each language directory we found a algorithm.md file, he associate a short name to a description of algorithme and implementation specificity.
 
 ## Contribution
 
