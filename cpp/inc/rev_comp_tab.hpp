@@ -11,7 +11,7 @@ public:
     std::string run(std::string ori);
 
 private:
-    char hash[85];
+    char tab[85];
 };
 
 #endif /* _HG_REV_COMP_TAB_HPP_HG_ */
