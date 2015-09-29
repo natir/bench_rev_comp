@@ -4,8 +4,8 @@ bench\_rev\_comp is a project to compare some reverse complement algorithme in s
 
 ## Project structure
 
-data: content script to generate data set file.
-cpp: source file to generate exectuable to run benchmark in C++
+* data: content script to generate data set file.
+* cpp: source file to generate exectuable to run benchmark in C++
 
 ## Interface for each language
 
