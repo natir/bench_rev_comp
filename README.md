@@ -26,6 +26,10 @@ naive,tab,hash,pol3
 
 In each language directory we found a algorithm.md file, he associate a short name to a description of algorithme and implementation specificity.
 
+### Algorithm naming
+
+Please don't use this charactere in your algorithm name '-'
+
 ## Contribution
 
 You can create a new directory for your favorite language, add new algorithme in one language, translate some algorithme in another language, add another implementation of algorithme and make some modification in implementation (maybe your pull request generate big discussion).
