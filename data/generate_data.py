@@ -5,6 +5,7 @@
 """ Generate DNA data for benchmark some rev_comp algorithme """
 
 # std import
+import sys
 import argparse
 import random
 from numpy import arange
@@ -29,11 +30,13 @@ def in_interval_0_1(val):
 
 
 # Main programme
-def main():
+def main(args):
     """ Main function of programme """
 
     parser = argparse.ArgumentParser(prog="generate_data",
-                                     description="Generate DNA data")
+                                     description="Generate DNA data",
+                                     formatter_class=argparse.
+                                     ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--output", type=str, help="output filename",
                         required=True)
     parser.add_argument("-l", "--min-seq-len", type=unsigned_int,
@@ -43,13 +46,13 @@ def main():
     parser.add_argument("-m", "--step-seq", type=unsigned_int,
                         help="multiplicator of sequence growing", default=10)
     parser.add_argument("-g", "--min-gc", type=in_interval_0_1,
-                        help="minimal GC %", default=0.0)
+                        help="minimal GC percent", default=0.0)
     parser.add_argument("-G", "--max-gc", type=in_interval_0_1,
-                        help="maximal GC %", default=1.0)
+                        help="maximal GC percent", default=1.0)
     parser.add_argument("-s", "--step-gc", type=in_interval_0_1,
                         help="step of gc growing", default=0.1)
 
-    args = vars(parser.parse_args())
+    args = vars(parser.parse_args(args))
 
     with open(args["output"], "w") as outfile:
         outfile.write("length,gc,seq\n")
@@ -88,4 +91,4 @@ def generate_random(gc, n):
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

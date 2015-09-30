@@ -34,7 +34,9 @@ def isdir(val):
 def main(args):
 
     parser = argparse.ArgumentParser(prog="run",
-                                     description="Run bench_rev_comp")
+                                     description="Run bench_rev_comp",
+                                     formatter_class=argparse.
+                                     ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--output", type=str, help="output prefix",
                         required=True)
     parser.add_argument("-i", "--input", type=str,
