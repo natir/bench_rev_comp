@@ -18,6 +18,10 @@
 #include "rev_comp_tab_allocate.hpp"
 #include "rev_comp_naive_allocate.hpp"
 #include "rev_comp_pol3_allocate.hpp"
+#include "rev_comp_hash_switch.hpp"
+#include "rev_comp_tab_switch.hpp"
+#include "rev_comp_naive_switch.hpp"
+#include "rev_comp_pol3_switch.hpp"
 
 int main(int argc, char** argv)
 {
@@ -35,6 +39,10 @@ int main(int argc, char** argv)
     bench_list.emplace("hash_allocate", std::make_unique<rev_comp_hash_allocate>());
     bench_list.emplace("naive_allocate", std::make_unique<rev_comp_naive_allocate>());
     bench_list.emplace("pol3_allocate", std::make_unique<rev_comp_pol3_allocate>());
+    bench_list.emplace("tab_switch", std::make_unique<rev_comp_tab_switch>());
+    bench_list.emplace("hash_switch", std::make_unique<rev_comp_hash_switch>());
+    bench_list.emplace("naive_switch", std::make_unique<rev_comp_naive_switch>());
+    bench_list.emplace("pol3_switch", std::make_unique<rev_comp_pol3_switch>());
 
     /* print algorithme name */
     bool first = true;
