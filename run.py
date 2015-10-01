@@ -147,4 +147,5 @@ def generate_graph(output):
 
 
 if __name__ == '__main__':
+    csv.field_size_limit(sys.maxsize)
     main(sys.argv[1:])
