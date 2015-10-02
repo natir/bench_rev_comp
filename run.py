@@ -70,16 +70,18 @@ def read_run_store(lang, nb_call, output, seq_file, nb_of_nuc):
 
         for row in seq_reader:
 
-            print("    len : "+row["length"]+" gc : "+row["gc"])
+            print("    len : "+row["length"]+" gc : "+row["gc"]+" nb_nuc : "
+                  + str(nb_of_nuc / len(row["seq"])))
 
             tmp_dict = run(lang+"/bench", row["seq"], row["gc"], nb_call,
-                            nb_of_nuc/len(row["seq"]))
+                           nb_of_nuc/len(row["seq"]))
             for k in tmp_dict.keys():
                 all_data[k] = tmp_dict[k]
 
         store(all_data, output, lang, nb_call)
         generate_graph(output)
-        
+
+
 def run(bin_path, seq, gc, nb_call, nb_repeat):
     ret = defaultdict(list)
     for i in range(nb_call):
@@ -94,10 +96,11 @@ def run(bin_path, seq, gc, nb_call, nb_repeat):
 
     return ret
 
+
 def store(result, output, lang, nb_call):
 
     print("Store")
-    
+
     with open(output+"_"+lang+"_raw.csv", "w") as raw, open(
             output+"_resume.csv", "w") as clean:
         raw.write(",".join(["len", "gc", "algo"] + ["res_"+str(i) for i in
@@ -112,12 +115,13 @@ def store(result, output, lang, nb_call):
             mean = numpy.mean(result[len_gc_algo])
             std = numpy.std(result[len_gc_algo])
             clean.write(",".join([lang, length, gc, algo, str(mean), str(std)])
-                                 + "\n")
+                        + "\n")
+
 
 def generate_graph(output):
 
     print("Generate graphe")
-    
+
     pandas.set_option('display.mpl_style', 'default')
     data = pandas.read_csv(output+"_resume.csv")
 
@@ -126,13 +130,14 @@ def generate_graph(output):
             df = pandas.DataFrame(index=list(set(data['gc'])))
             errors = list()
 
-            for algo in set(data['algo']):
+            for algo in sorted(set(data['algo'])):
                 is_lang = data['language'] == lang
                 is_len = data['len'] == length
                 is_algo = data['algo'] == algo
-                mean = pandas.Series(list(data[is_lang & is_len & is_algo]
-                                          ['mean']), index=list(set(data['gc']
-                                          )))
+                mean = pandas.Series(
+                    list(data[is_lang & is_len & is_algo]['mean']),
+                    index=list(set(data['gc'])))
+
                 errors.append(list(pandas.Series(data[is_lang & is_len &
                                                       is_algo]['stderror'])))
                 df[algo] = mean
@@ -142,7 +147,9 @@ def generate_graph(output):
 
             fig = graph.get_figure()
             dpi = fig.get_dpi()
-            fig.set_size_inches(1536.0/float(dpi),576/float(dpi))
+
+            # Some magique value sorry
+            fig.set_size_inches(1536.0/float(dpi), 576/float(dpi))
             fig.savefig(str(output)+"_"+str(lang)+"_"+str(length)+".png")
 
 
