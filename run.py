@@ -79,7 +79,7 @@ def read_run_store(lang, nb_call, output, seq_file, nb_of_nuc):
                 all_data[k] = tmp_dict[k]
 
         store(all_data, output, lang, nb_call)
-        generate_graph(output)
+        generate_graph(output, nb_of_nuc)
 
 
 def run(bin_path, seq, gc, nb_call, nb_repeat):
@@ -118,7 +118,7 @@ def store(result, output, lang, nb_call):
                         + "\n")
 
 
-def generate_graph(output):
+def generate_graph(output, nb_of_nuc):
 
     print("Generate graphe")
 
@@ -144,7 +144,13 @@ def generate_graph(output):
 
             df.sort_index(inplace=True)
             graph = df.plot(kind='bar', yerr=errors)
-
+            graph.set_ylabel("Time in microsecond")
+            graph.set_xlabel("GC percent")
+            graph.set_title(
+                "Result of reverse complement algorithm benchmark in "
+                +str(lang)+" with "+str(int(nb_of_nuc/length))+" call "
+                +"on sequence with "+str(length)+" nucleotide")
+            
             fig = graph.get_figure()
             dpi = fig.get_dpi()
 
