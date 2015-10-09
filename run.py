@@ -49,7 +49,7 @@ def main(args):
                         action='store')
     parser.add_argument("-N", "--nb-of-nuc", type=unsigned_int,
                         help="Each call run on this nucleotide number",
-                        default=1000000)
+                        default=10000000)
 
     args = vars(parser.parse_args(args))
 
@@ -57,6 +57,7 @@ def main(args):
         print("We can't find "+args["input"]+" use data/generate_data.py")
 
     for lang in args["list_lang"]:
+        print("For "+lang)
         read_run_store(lang, args["nb_call"], args["output"],
                        args["input"], args["nb_of_nuc"])
 
