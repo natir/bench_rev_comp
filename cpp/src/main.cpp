@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     /* Initialize algorithme */
     std::map<std::string, std::unique_ptr<arev_comp> > bench_list;
     bench_list.emplace("tab", std::make_unique<rev_comp_tab>());
-    bench_list.emplace("hash", std::make_unique<rev_comp_tab>());
+    bench_list.emplace("hash", std::make_unique<rev_comp_hash>());
     bench_list.emplace("naive", std::make_unique<rev_comp_naive>());
     bench_list.emplace("pol3", std::make_unique<rev_comp_pol3>());
     bench_list.emplace("tab_allocate", std::make_unique<rev_comp_tab_allocate>());
