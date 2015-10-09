@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+# -*- coding: utf8 -*-
+
+# std import
+import sys
+import datetime
+
+# project import
+import rev_comp_tab
+import rev_comp_pol3
+import rev_comp_hash
+import rev_comp_naive
+
+
+def main(repeat, seq):
+
+    bench_list = dict()
+    bench_list["tab"] = rev_comp_tab.Tab()
+    bench_list["pol3"] = rev_comp_pol3.Pol3()
+    bench_list["hash"] = rev_comp_hash.Hash()
+    bench_list["naive"] = rev_comp_naive.Naive()
+
+    l_of_k = sorted(bench_list.keys())
+    print(",".join(l_of_k))
+
+    result_time = list()
+    
+    for k in l_of_k:
+        begin = datetime.datetime.now()
+        
+        for i in range(repeat):
+            bench_list[k].run(seq)
+
+        elapsed = datetime.datetime.now() - begin   
+        result_time.append(str(elapsed.microseconds))
+
+    print(",".join(result_time))
+        
+if __name__ == '__main__':
+    main(int(float(sys.argv[1])), str(sys.argv[2]))
