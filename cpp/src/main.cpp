@@ -31,18 +31,18 @@ int main(int argc, char** argv)
 
     /* Initialize algorithme */
     std::map<std::string, std::unique_ptr<arev_comp> > bench_list;
-    bench_list.emplace("tab", std::make_unique<rev_comp_tab>());
-    bench_list.emplace("hash", std::make_unique<rev_comp_hash>());
-    bench_list.emplace("naive", std::make_unique<rev_comp_naive>());
-    bench_list.emplace("pol3", std::make_unique<rev_comp_pol3>());
-    bench_list.emplace("tab_allocate", std::make_unique<rev_comp_tab_allocate>());
-    bench_list.emplace("hash_allocate", std::make_unique<rev_comp_hash_allocate>());
-    bench_list.emplace("naive_allocate", std::make_unique<rev_comp_naive_allocate>());
-    bench_list.emplace("pol3_allocate", std::make_unique<rev_comp_pol3_allocate>());
-    bench_list.emplace("tab_switch", std::make_unique<rev_comp_tab_switch>());
-    bench_list.emplace("hash_switch", std::make_unique<rev_comp_hash_switch>());
-    bench_list.emplace("naive_switch", std::make_unique<rev_comp_naive_switch>());
-    bench_list.emplace("pol3_switch", std::make_unique<rev_comp_pol3_switch>());
+    bench_list.emplace("rev_naif_comp_tab", std::make_unique<rev_comp_tab>());
+    bench_list.emplace("rev_naif_comp_hash", std::make_unique<rev_comp_hash>());
+    bench_list.emplace("rev_naif_comp_naif", std::make_unique<rev_comp_naive>());
+    bench_list.emplace("rev_naif_comp_pol3", std::make_unique<rev_comp_pol3>());
+    bench_list.emplace("rev_allocate_comp_tab", std::make_unique<rev_comp_tab_allocate>());
+    bench_list.emplace("rev_allocate_comp_hash", std::make_unique<rev_comp_hash_allocate>());
+    bench_list.emplace("rev_allocate_comp_naif", std::make_unique<rev_comp_naive_allocate>());
+    bench_list.emplace("rev_allocate_comp_pol3", std::make_unique<rev_comp_pol3_allocate>());
+    bench_list.emplace("rev_switch_comp_tab", std::make_unique<rev_comp_tab_switch>());
+    bench_list.emplace("rev_switch_comp_hash", std::make_unique<rev_comp_hash_switch>());
+    bench_list.emplace("rev_switch_comp_naif", std::make_unique<rev_comp_naive_switch>());
+    bench_list.emplace("rev_switch_comp_pol3", std::make_unique<rev_comp_pol3_switch>());
 
     /* print algorithme name */
     bool first = true;
