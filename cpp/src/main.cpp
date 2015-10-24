@@ -5,23 +5,17 @@
 #include <map>
 #include <chrono>
 
-/* sys include */
-#include <sys/time.h>
-
 /* project include */
-#include "arev_comp.hpp"
-#include "rev_comp_hash.hpp"
-#include "rev_comp_tab.hpp"
-#include "rev_comp_naive.hpp"
-#include "rev_comp_pol3.hpp"
-#include "rev_comp_hash_allocate.hpp"
-#include "rev_comp_tab_allocate.hpp"
-#include "rev_comp_naive_allocate.hpp"
-#include "rev_comp_pol3_allocate.hpp"
-#include "rev_comp_hash_switch.hpp"
-#include "rev_comp_tab_switch.hpp"
-#include "rev_comp_naive_switch.hpp"
-#include "rev_comp_pol3_switch.hpp"
+#include "acomp.hpp"
+#include "comp_naif.hpp"
+#include "comp_pol3.hpp"
+#include "comp_hash.hpp"
+#include "comp_tab.hpp"
+
+#include "arev.hpp"
+#include "rev_naif.hpp"
+#include "rev_allocate.hpp"
+#include "rev_switch.hpp"
 
 int main(int argc, char** argv)
 {
@@ -30,51 +24,54 @@ int main(int argc, char** argv)
     std::string seq(argv[2]);
 
     /* Initialize algorithme */
-    std::map<std::string, std::unique_ptr<arev_comp> > bench_list;
-    bench_list.emplace("tab", std::make_unique<rev_comp_tab>());
-    bench_list.emplace("hash", std::make_unique<rev_comp_hash>());
-    bench_list.emplace("naive", std::make_unique<rev_comp_naive>());
-    bench_list.emplace("pol3", std::make_unique<rev_comp_pol3>());
-    bench_list.emplace("tab_allocate", std::make_unique<rev_comp_tab_allocate>());
-    bench_list.emplace("hash_allocate", std::make_unique<rev_comp_hash_allocate>());
-    bench_list.emplace("naive_allocate", std::make_unique<rev_comp_naive_allocate>());
-    bench_list.emplace("pol3_allocate", std::make_unique<rev_comp_pol3_allocate>());
-    bench_list.emplace("tab_switch", std::make_unique<rev_comp_tab_switch>());
-    bench_list.emplace("hash_switch", std::make_unique<rev_comp_hash_switch>());
-    bench_list.emplace("naive_switch", std::make_unique<rev_comp_naive_switch>());
-    bench_list.emplace("pol3_switch", std::make_unique<rev_comp_pol3_switch>());
+    std::map<std::string, std::unique_ptr<acomp> > comp_list;
+    comp_list.emplace("naif", std::make_unique<comp_naif>());
+    comp_list.emplace("pol3", std::make_unique<comp_pol3>());
+    comp_list.emplace("hash", std::make_unique<comp_hash>());
+    comp_list.emplace("tab", std::make_unique<comp_tab>());
+
+    std::map<std::string, std::unique_ptr<arev> > rev_list;
+    rev_list.emplace("naif", std::make_unique<rev_naif>());
+    rev_list.emplace("allocate", std::make_unique<rev_allocate>());
+    rev_list.emplace("switch", std::make_unique<rev_switch>());
 
     /* print algorithme name */
     bool first = true;
-    for(const auto &pair : bench_list)
+    for(const auto &comp : comp_list)
     {
-	if(first)
-	    std::cout<<pair.first;
-	else
-	    std::cout<<","<<pair.first;
-	first = false;
+	for(const auto &rev : rev_list)
+	{
+	    if(!first)
+		std::cout<<",";
+
+	    std::cout<<"rev_"<<rev.first<<"_comp_"<<comp.first;
+	    first = false;
+	}
     }
     std::cout<<std::endl;
 
     /* loop on all algorithme and print result */
     first = true;
-    for(const auto &algo : bench_list)
+    for(const auto &comp : comp_list)
     {
-	auto begin = std::chrono::high_resolution_clock::now();
-        
-	for(auto i = 0; i != repeat; i++)
+	for(const auto &rev : rev_list)
 	{
-	    algo.second->run(seq);
-	}
+	    auto begin = std::chrono::high_resolution_clock::now();
 
-	auto elapsed = std::chrono::high_resolution_clock::now() - begin;
+	    for(auto i = 0; i != repeat; i++)
+	    {
+		(*rev.second)(seq, comp.second);
+	    }
 
-	long long duration = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-	if(first)
+	    auto elapsed = std::chrono::high_resolution_clock::now() - begin;
+
+	    long long duration = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+	    if(!first)
+		std::cout<<",";
+
 	    std::cout<<duration;
-	else
-	    std::cout<<","<<duration;
-	first = false;
+	    first = false;
+	}
     }
     std::cout<<std::endl;
 
