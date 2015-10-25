@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/natir/bench_rev_comp.svg)](https://travis-ci.org/natir/bench_rev_comp)
+
 # Benchmark Reverse Complement
 
 bench\_rev\_comp is a project to compare some reverse complement algorithme in some programing language.
