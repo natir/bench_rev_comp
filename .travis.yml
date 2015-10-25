@@ -10,15 +10,13 @@ addons:
     packages:
       - cmake
       - g++-5
-      - clang
 
 compiler:
-  - clang
   - gcc
 
 before_script:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
-  - if [ "$CXX" = "clang++"]; then export CXX="clang++-3.4"; fi
+  - if [ "$CXX" = "clang++"]; then export CXX="clang++-3.5"; fi
 
 script:
   - cd cpp/build
