@@ -10,11 +10,25 @@ include_directories(inc)
 file(
   GLOB_RECURSE
   src_files
-  src/*
+  src/*rev*
+  src/*comp*
+  )
+
+file(
+  GLOB_RECURSE
+  test_files
+  test/*
   )
 
 add_executable(
   bench
+  src/main.cpp
+  ${src_files}
+  )
+
+add_executable(
+  bench_test
+  ${test_files}
   ${src_files}
   )
 
