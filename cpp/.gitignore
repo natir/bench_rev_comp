@@ -38,7 +38,6 @@ CMakeScripts
 Makefile
 cmake_install.cmake
 install_manifest.txt
-build/bench_rev_comp
 
 #########
 # Project

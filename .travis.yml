@@ -2,6 +2,7 @@ language: cpp
 
 sudo: false
 
+# Add package
 addons:
   apt:
     sources:
@@ -18,7 +19,12 @@ before_script:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
   - if [ "$CXX" = "clang++"]; then export CXX="clang++-3.5"; fi
 
+# List of subdir
+env:
+  - LANG_DIR=cpp
+  - LANG_DIR=python
+  
 script:
-  - cd cpp/build
-  - cmake ..
-  - make
+  - cd $LANG_DIR/build
+  - ./build
+  - ./test
