@@ -28,7 +28,7 @@ env:
   - LANG_DIR=python
 
 install:
-  - pip install -r requirement.txt
+  - pip3 install -r requirement.txt
   
 script:
   - cd $LANG_DIR/build
