@@ -3,12 +3,7 @@
 class Arev_comp:
 
     def run(self, seq):
-        rev_comp = str()
-
-        for c in seq:
-            rev_comp = self._char2char(c) + rev_comp
-            
-        return rev_comp
+        return reversed(''.join(self._char2char(c) for c in seq))
 
     def _char2char(self, c):
         raise NotImplemented
