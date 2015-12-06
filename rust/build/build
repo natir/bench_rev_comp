@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cd ..
-cargo build --release
-cp target/release/bench .
