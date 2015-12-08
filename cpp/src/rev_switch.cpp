@@ -22,3 +22,4 @@ std::string rev_switch::operator()(std::string seq, const std::unique_ptr<acomp>
 
     return seq;
 }
+

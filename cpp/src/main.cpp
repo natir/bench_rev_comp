@@ -16,6 +16,7 @@
 #include "rev_naif.hpp"
 #include "rev_allocate.hpp"
 #include "rev_switch.hpp"
+#include "rev_std.hpp"
 
 int main(int argc, char** argv)
 {
@@ -34,7 +35,8 @@ int main(int argc, char** argv)
     rev_list.emplace("naif", std::make_unique<rev_naif>());
     rev_list.emplace("allocate", std::make_unique<rev_allocate>());
     rev_list.emplace("switch", std::make_unique<rev_switch>());
-
+    rev_list.emplace("std", std::make_unique<rev_std>());
+    
     /* print algorithme name */
     bool first = true;
     for(const auto &comp : comp_list)

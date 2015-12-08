@@ -11,6 +11,7 @@
 #include "rev_naif.hpp"
 #include "rev_allocate.hpp"
 #include "rev_switch.hpp"
+#include "rev_std.hpp"
 
 int main()
 {
@@ -26,6 +27,7 @@ int main()
     rev_naif r_naif;
     rev_allocate r_allocate;
     rev_switch r_switch;
+    rev_std r_std;
     
     std::cout<<"reverse naif :"<<std::endl;
     std::cout<<"\t"<<"comp naif"<<std::endl;
@@ -56,6 +58,25 @@ int main()
     assert(rev_comp == r_switch(seq, comp_list["hash"]));
     std::cout<<"\t"<<"comp tab"<<std::endl;
     assert(rev_comp == r_switch(seq, comp_list["tab"]));
+    
+    std::cout<<"reverse std :"<<std::endl;
+    std::cout<<"\t"<<"comp std"<<std::endl;
+    assert(rev_comp == r_std(seq, comp_list["naif"]));
+    std::cout<<"\t"<<"comp pol3"<<std::endl;
+    assert(rev_comp == r_std(seq, comp_list["pol3"]));
+    std::cout<<"\t"<<"comp hash"<<std::endl;
+    assert(rev_comp == r_std(seq, comp_list["hash"]));
+    std::cout<<"\t"<<"comp tab"<<std::endl;
+    assert(rev_comp == r_std(seq, comp_list["tab"]));
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
