@@ -30,7 +30,7 @@ class Hash(Arev_comp):
 input_gperf = io.StringIO()
 
 # Header part of the gperf file
-print("struct kmer_revcomp\n{\n\tchar * kmer;\n\tchar * revcomp;\n};\n",
+print("struct kmer_revcomp\n{\n\tchar * kmer;\n\tstd::string revcomp;\n};\n",
       file=input_gperf)
 print("%language=C++", file=input_gperf)
 print("%define slot-name kmer", file=input_gperf) 
@@ -48,7 +48,7 @@ rev_comp = Hash()
 for k in range(1, int(sys.argv[1]) + 1):
     for kmer in [''.join(p) for p in itertools.product(['A', 'C', 'T', 'G'],
                                                        repeat=k)]:
-        print("{}, \"{}\"".format(kmer, rev_comp.run(kmer)), file=input_gperf)
+        print("{},\"{}\"".format(kmer, rev_comp.run(kmer)), file=input_gperf)
 
 input_gperf.seek(io.SEEK_SET)
 

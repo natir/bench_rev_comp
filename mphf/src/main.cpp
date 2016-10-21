@@ -3,20 +3,27 @@
 #include <iostream>
 #include <chrono>
 
-#include "mphf_4mer.hpp"
+#include "mphf_kmer.hpp"
 
-std::string rev_comp(std::string seq)
+#ifndef KMER
+#define KMER 4
+#endif
+
+std::string rev_comp_naif(std::string seq)
 {
     std::string rev_comp;
 
-    unsigned int k = 4;
+    unsigned int k = KMER;
     unsigned int i = 0;
 
     for(; i < seq.length() && k > 0; k--)
     {
-        for(; i < seq.length() - k + 1; i += k)
+        while(signed(seq.length() - k + 1) > 0 && i < signed(seq.length() - k + 1))
         {
-            rev_comp = Perfect_Hash::in_word_set(seq.substr(i, k).c_str(), k)->revcomp + rev_comp;
+            auto tmp = Perfect_Hash::in_word_set(seq.substr(i, k).c_str(), k);
+            if(tmp != 0)
+                rev_comp = tmp->revcomp + rev_comp;
+            i += k;
         }
     }
 
@@ -35,7 +42,10 @@ int main(int argc, char** argv)
 
     auto begin = std::chrono::high_resolution_clock::now();
 
-    rev_comp(seq);
+    for(auto i = 0; i != repeat; i++)
+    {
+        rev_comp_naif(seq);
+    }
 
     auto elapsed = std::chrono::high_resolution_clock::now() - begin;
 

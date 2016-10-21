@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 
 project(bench_rev_comp_cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O2")
+if(NOT ${KMER})
+    set(KMER 4)
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O2 -DKMER=${KMER}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 
 include_directories(inc)
@@ -15,14 +19,14 @@ file(
   )
 
 add_custom_command(
-    OUTPUT  inc/mphf_4mer.hpp
-    COMMAND ${CMAKE_SOURCE_DIR}/script/generate_gperf_file.py 4 ${CMAKE_SOURCE_DIR}/inc/mphf_4mer.hpp
+    OUTPUT  inc/mphf_kmer.hpp
+    COMMAND ${CMAKE_SOURCE_DIR}/script/generate_gperf_file.py ${KMER} ${CMAKE_SOURCE_DIR}/inc/mphf_kmer.hpp
     )
 
 add_executable(
   bench
   src/main.cpp
   ${src_files}
-  inc/mphf_4mer.hpp
+  inc/mphf_kmer.hpp
   )
 
