@@ -123,7 +123,6 @@ def generate_graph(output, nb_of_nuc):
 
     print("Generate graphe")
 
-    pandas.set_option('display.mpl_style', 'default')
     data = pandas.read_csv(output+"_resume.csv")
 
     for lang in set(data['language']):
